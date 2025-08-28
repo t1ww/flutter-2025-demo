@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Shopping Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .item {
+            margin: 8px 0;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .item button {
+            float: right;
+        }
+
+        #cart-items {
+            margin-top: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>My Cart</h1>
+    <div id="items">
+        <div class="item">Apple - \$30 <button onclick="addToCart('Apple', 30)">Add</button></div>
+        <div class="item">Banana - \$20 <button onclick="addToCart('Banana', 20)">Add</button></div>
+        <div class="item">Orange - \$25 <button onclick="addToCart('Orange', 25)">Add</button></div>
+        <div class="item">Milk - \$45 <button onclick="addToCart('Milk', 45)">Add</button></div>
+        <div class="item">Bread - \$35 <button onclick="addToCart('Bread', 35)">Add</button></div>
+    </div>
+    <h2>Cart</h2>
+    <ul id="cart-items"></ul>
+    <p>Total:</p>
+    <p id="total">\$0</p>
+
+    <script>
+        var cart = [];
+        var total = 0;
+        function addToCart(name, price) {
+            cart.push({ name: name, price: price });
+            total += price;
+            updateCartUI();
+            updateTotalUI();
+            sendTotalToFlutter();
+        }
+        function updateCartUI() {
+            var cartList = document.getElementById('cart-items');
+            cartList.innerHTML = '';
+            cart.forEach(function (item) {
+                var li = document.createElement('li');
+                li.textContent = item.name + ' - \$' + item.price;
+                cartList.appendChild(li);
+            });
+        }
+        function updateTotalUI() {
+            document.getElementById('total').innerText = total;
+        }
+        function sendTotalToFlutter() {
+            var totalPrice = document.getElementById('total').innerText;
+            FlutterChannel.postMessage(totalPrice);
+        }
+        // For Flutter to update total
+        function updateTotalFromFlutter(newTotal) {
+            document.getElementById('total').innerText = newTotal;
+            alert('Total updated from Flutter: ' + newTotal);
+        }
+    </script>
+</body>
+
+</html>
