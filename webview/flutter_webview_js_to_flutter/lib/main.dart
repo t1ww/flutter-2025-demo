@@ -30,7 +30,8 @@ class _WebViewWithJSState extends State<WebViewWithJS> {
   String totalFromJS = "";
 
   Future<void> _sendMessage() async {
-    await _controller.runJavaScript("updateTotalFromFlutter($totalFromJS)");
+    int newTotal = int.parse(totalFromJS) + 100;
+    await _controller.runJavaScript("updateTotalFromFlutter($newTotal)");
   }
 
   @override
