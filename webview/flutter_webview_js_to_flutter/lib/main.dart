@@ -29,6 +29,10 @@ class _WebViewWithJSState extends State<WebViewWithJS> {
   late final WebViewController _controller;
   String totalFromJS = "";
 
+  Future<void> _sendMessage() async {
+    await _controller.runJavaScript("updateTotalFromFlutter($totalFromJS)");
+  }
+
   @override
   void initState() {
     super.initState();
@@ -41,10 +45,11 @@ class _WebViewWithJSState extends State<WebViewWithJS> {
             onMessageReceived: (JavaScriptMessage message) {
               setState(() {
                 totalFromJS = message.message;
+                _sendMessage();
               });
             },
           )
-          ..loadHtmlString(htmlContent);
+          ..loadFlutterAsset("assets/challenge_webview.html");
   }
 
   @override
