@@ -70,7 +70,10 @@ class _NavigationExampleState extends State<NavigationExample> {
               }
             },
           ),
-          IconButton(icon: Icon(Icons.refresh), onPressed: () => _controller.reload()),
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () => _controller.reload(),
+          ),
         ],
       ),
       body: WebViewWidget(controller: _controller),

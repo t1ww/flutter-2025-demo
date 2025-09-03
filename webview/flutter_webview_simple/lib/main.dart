@@ -22,20 +22,33 @@ class SimpleWebView extends StatefulWidget {
 }
 
 class _SimpleWebViewState extends State<SimpleWebView> {
-  late final WebViewController _controller;
+  late final WebViewController _controller1;
+  late final WebViewController _controller2;
 
   @override
   void initState() {
     super.initState();
-    _controller = WebViewController();
-    _controller.loadRequest(Uri.parse('https://flutter.dev'));
+    // First controller for asset
+    _controller1 = WebViewController()..loadFlutterAsset('assets/index.html');
+
+    // Second controller for HTML string
+    _controller2 =
+        WebViewController()..loadHtmlString(
+          '<html><body><h1>HTML String Content</h1><p>This is loaded from a string</p></body></html>',
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Flutter WebView')),
-      body: WebViewWidget(controller: _controller),
+      body: Column(
+        children: [
+          Expanded(child: WebViewWidget(controller: _controller1)),
+          const Divider(thickness: 2, height: 1),
+          Expanded(child: WebViewWidget(controller: _controller2)),
+        ],
+      ),
     );
   }
 }
