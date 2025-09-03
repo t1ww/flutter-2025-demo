@@ -21,6 +21,8 @@ class NavigationExample extends StatefulWidget {
 
 class _NavigationExampleState extends State<NavigationExample> {
   late final WebViewController _controller;
+  bool _isLoading = false;
+  double _progress = 0.0;
 
   @override
   void initState() {
@@ -32,12 +34,27 @@ class _NavigationExampleState extends State<NavigationExample> {
             NavigationDelegate(
               onPageStarted: (url) {
                 print("Page started loading: $url");
+                setState(() {
+                  _isLoading = true;
+                  _progress = 0.0;
+                });
+              },
+              onProgress: (progress) {
+                print("Loading progress: $progress%");
+                setState(() {
+                  _progress = progress / 100;
+                });
               },
               onPageFinished: (url) {
                 print("Page finished loading: $url");
+                setState(() {
+                  _isLoading = false;
+                  _progress = 1.0;
+                });
               },
               onNavigationRequest: (request) {
-                if (request.url.startsWith("https://flutter.dev")) {
+                if (request.url.startsWith("https://flutter.dev") ||
+                    request.url.startsWith("https://docs.flutter.dev")) {
                   return NavigationDecision.navigate;
                 }
                 print("Blocked navigation to: ${request.url}");
@@ -76,7 +93,30 @@ class _NavigationExampleState extends State<NavigationExample> {
           ),
         ],
       ),
-      body: WebViewWidget(controller: _controller),
+      body: Stack(
+        children: [
+          WebViewWidget(controller: _controller),
+
+          // Progress bar
+          if (_progress > 0.0 && _progress < 1.0)
+            LinearProgressIndicator(
+              value: _progress,
+              backgroundColor: Colors.transparent,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+            ),
+
+          // Loading overlay
+          if (_isLoading)
+            Container(
+              color: Colors.black54,
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
