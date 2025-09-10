@@ -104,7 +104,7 @@ class _CartTotal extends StatelessWidget {
             Consumer<CartModel>(
               builder:
                   (context, cart, child) => Text(
-                    'Total: ${cart.totalPrice}',
+                    'Total: \$${cart.totalPrice}',
                     textScaler: TextScaler.linear(1.1),
                   ),
             ),
