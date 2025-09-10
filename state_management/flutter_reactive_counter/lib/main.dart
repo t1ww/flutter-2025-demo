@@ -20,15 +20,26 @@ class CounterScreen extends StatelessWidget {
       appBar: AppBar(title: Text('Reactive Counter')),
       body: Consumer<CounterModel>(
         builder: (context, counter, child) {
-          return Center(child: Text("Count: ${counter.count}", style: TextStyle(fontSize: 32)));
+          return Center(
+            child: Text(
+              "Count: ${counter.count}",
+              style: TextStyle(fontSize: 32),
+            ),
+          );
         },
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(onPressed: () => increment(context), child: Icon(Icons.add)),
+          FloatingActionButton(
+            onPressed: () => increment(context),
+            child: Icon(Icons.add),
+          ),
           SizedBox(height: 10),
-          FloatingActionButton(onPressed: () => reset(context), child: Icon(Icons.refresh)),
+          FloatingActionButton(
+            onPressed: () => reset(context),
+            child: Icon(Icons.refresh),
+          ),
         ],
       ),
     );
