@@ -7,29 +7,58 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_shopper/models/cart.dart';
 
-class MyCart extends StatelessWidget {
-  const MyCart({super.key});
+class MyPurchase extends StatelessWidget {
+  const MyPurchase({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cart', style: Theme.of(context).textTheme.displayLarge),
+        title: Text(
+          'Purchase Summary',
+          style: Theme.of(context).textTheme.displayLarge,
+        ),
         backgroundColor: Colors.white,
       ),
       body: Container(
-        color: Colors.yellow,
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(32),
-                child: _CartList(),
+        color: const Color.fromARGB(255, 255, 247, 220),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Text(
+                "Thank you for your purchase!",
+                textScaler: TextScaler.linear(1.5),
               ),
-            ),
-            const Divider(height: 4, color: Colors.black),
-            _CartTotal(),
-          ],
+              const Padding(
+                padding: EdgeInsets.all(4),
+                child: Divider(height: 4, color: Colors.black),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Items you purchased:",
+                  textScaler: TextScaler.linear(1.2),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: _CartList(),
+                ),
+              ),
+              _CartTotal(),
+              FilledButton(
+                onPressed: () {
+                  final cart = context.read<CartModel>();
+                  cart.clear();
+                  context.go('/catalog');
+                },
+                style: TextButton.styleFrom(foregroundColor: Colors.white),
+                child: const Text('Back to home'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -51,7 +80,7 @@ class _CartList extends StatelessWidget {
       itemCount: cart.items.length,
       itemBuilder:
           (context, index) => ListTile(
-            leading: const Icon(Icons.pending),
+            leading: const Icon(Icons.done),
             title: Text(cart.items[index].name, style: itemNameStyle),
           ),
     );
@@ -61,15 +90,10 @@ class _CartList extends StatelessWidget {
 class _CartTotal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var hugeStyle = Theme.of(
-      context,
-    ).textTheme.displayLarge!.copyWith(fontSize: 48);
-
     return SizedBox(
       height: 200,
       child: Center(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Another way to listen to a model's change is to include
             // the Consumer widget. This widget will automatically listen
@@ -79,24 +103,12 @@ class _CartTotal extends StatelessWidget {
             // the rest of the widgets in this build method.
             Consumer<CartModel>(
               builder:
-                  (context, cart, child) =>
-                      Text('\$${cart.totalPrice}', style: hugeStyle),
+                  (context, cart, child) => Text(
+                    'Total: ${cart.totalPrice}',
+                    textScaler: TextScaler.linear(1.1),
+                  ),
             ),
-            const SizedBox(width: 24),
-            FilledButton(
-              onPressed: () {
-                final cart = context.read<CartModel>();
-                if (cart.items.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Your cart is empty!')),
-                  );
-                } else {
-                  context.go('/catalog/cart/purchase');
-                }
-              },
-              style: TextButton.styleFrom(foregroundColor: Colors.white),
-              child: const Text('BUY'),
-            ),
+            const SizedBox(width: 12),
           ],
         ),
       ),

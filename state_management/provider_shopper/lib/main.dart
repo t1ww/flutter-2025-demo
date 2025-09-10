@@ -14,6 +14,7 @@ import 'package:provider_shopper/models/catalog.dart';
 import 'package:provider_shopper/screens/cart.dart';
 import 'package:provider_shopper/screens/catalog.dart';
 import 'package:provider_shopper/screens/login.dart';
+import 'package:provider_shopper/screens/provider_shopper.dart';
 import 'package:window_size/window_size.dart';
 
 void main() {
@@ -51,7 +52,16 @@ GoRouter router() {
         path: '/catalog',
         builder: (context, state) => const MyCatalog(),
         routes: [
-          GoRoute(path: 'cart', builder: (context, state) => const MyCart()),
+          GoRoute(
+            path: 'cart',
+            builder: (context, state) => const MyCart(),
+            routes: [
+              GoRoute(
+                path: '/purchase',
+                builder: (context, state) => const MyPurchase(),
+              ),
+            ],
+          ),
         ],
       ),
     ],

@@ -18,6 +18,7 @@ class MyCatalog extends StatelessWidget {
         slivers: [
           _MyAppBar(),
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
+          // SilverList is a better performance and more customizable ListView
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) => _MyListItem(index),
