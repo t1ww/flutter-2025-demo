@@ -30,7 +30,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Category'),
                 onSaved: (val) => _category = val ?? '',
-                validator: (val) => val == null || val.isEmpty ? 'Enter category' : null,
+                validator:
+                    (val) =>
+                        val == null || val.isEmpty ? 'Enter category' : null,
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Amount'),
@@ -49,18 +51,25 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 items:
                     TransactionType.values
                         .map(
-                          (type) => DropdownMenuItem(value: type, child: Text(type.name)),
+                          (type) => DropdownMenuItem(
+                            value: type,
+                            child: Text(type.name),
+                          ),
                         )
                         .toList(),
                 onChanged:
-                    (val) => setState(() => _type = val ?? TransactionType.expense),
+                    (val) =>
+                        setState(() => _type = val ?? TransactionType.expense),
                 decoration: const InputDecoration(labelText: 'Type'),
               ),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    Provider.of<ExpenseViewModel>(context, listen: false).addTransaction(
+                    Provider.of<ExpenseViewModel>(
+                      context,
+                      listen: false,
+                    ).addTransaction(
                       Transaction(
                         category: _category,
                         amount: _amount,
