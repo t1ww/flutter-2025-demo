@@ -48,7 +48,7 @@ class QuizPage extends StatelessWidget {
             } else if (state is QuizLoaded) {
               final quiz = state.currentQuiz;
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     "Q${state.currentIndex + 1}: ${quiz.question}",
@@ -61,31 +61,21 @@ class QuizPage extends StatelessWidget {
                   ...quiz.answers.asMap().entries.map((entry) {
                     final idx = entry.key;
                     final answer = entry.value;
-                    return ListTile(
-                      title: Text(answer),
-                      leading: Radio<int>(
-                        value: idx,
-                        groupValue: state.selectedAnswer,
-                        onChanged: (value) {
-                          context.read<QuizCubit>().selectAnswer(value!);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          context.read<QuizCubit>().selectAnswer(idx);
+                          context.read<QuizCubit>().nextQuestion();
                         },
+                        child: Text(answer),
                       ),
                     );
                   }),
                   const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Question ${state.currentIndex + 1}/${state.quizzes.length}",
-                      ),
-                      ElevatedButton(
-                        onPressed: state.selectedAnswer == null
-                            ? null
-                            : () => context.read<QuizCubit>().nextQuestion(),
-                        child: const Text("Next"),
-                      ),
-                    ],
+                  Text(
+                    "Question ${state.currentIndex + 1}/${state.quizzes.length}",
+                    textAlign: TextAlign.center,
                   ),
                 ],
               );
