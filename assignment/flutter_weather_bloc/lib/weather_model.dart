@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-
 class Weather {
-  final Widget icon;
   final String city;
   final double temperature;
   final String description;
@@ -9,7 +6,6 @@ class Weather {
   final double windSpeed;
 
   Weather({
-    required this.icon,
     required this.city,
     required this.temperature,
     required this.description,

@@ -13,7 +13,6 @@ class WeatherCubit extends Cubit<WeatherState> {
       final weather = await repository.fetchWeather(city);
       emit(
         WeatherLoaded(
-          icon: weather.icon,
           city: weather.city,
           temperature: weather.temperature,
           description: weather.description,

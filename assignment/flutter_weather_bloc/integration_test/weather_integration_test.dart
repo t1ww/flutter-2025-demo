@@ -15,7 +15,6 @@ class FakeWeatherRepository implements WeatherRepository {
     if (throwError) throw Exception('error');
     return weatherToReturn ??
         Weather(
-          icon: Icon(Icons.sunny),
           city: city,
           temperature: 0,
           description: '',
@@ -46,7 +45,6 @@ void main() {
       WidgetTester tester,
     ) async {
       fakeRepository.weatherToReturn = Weather(
-        icon: Icon(Icons.sunny),
         city: 'Bangkok',
         temperature: 30.0,
         description: 'Sunny',

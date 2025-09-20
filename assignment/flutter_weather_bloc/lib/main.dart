@@ -77,7 +77,7 @@ class WeatherPage extends StatelessWidget {
                 } else if (state is WeatherLoaded) {
                   return Column(
                     children: [
-                      state.icon,
+                      _buildWeatherIcon(state.description),
                       Text(
                         'City: ${state.city}',
                         style: const TextStyle(fontSize: 20),
@@ -105,5 +105,26 @@ class WeatherPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildWeatherIcon(String description) {
+    switch (description.toLowerCase()) {
+      case 'sunny':
+        return const Icon(Icons.wb_sunny, color: Colors.orange, size: 48);
+      case 'cloudy':
+        return const Icon(Icons.wb_cloudy, color: Colors.blueGrey, size: 48);
+      case 'rainy':
+        return const Icon(Icons.grain, color: Colors.blue, size: 48);
+      case 'stormy':
+        return const Icon(Icons.flash_on, color: Colors.yellow, size: 48);
+      case 'snowy':
+        return const Icon(
+          Icons.ac_unit,
+          color: Colors.lightBlueAccent,
+          size: 48,
+        );
+      default:
+        return const Icon(Icons.error, color: Colors.red, size: 48);
+    }
   }
 }

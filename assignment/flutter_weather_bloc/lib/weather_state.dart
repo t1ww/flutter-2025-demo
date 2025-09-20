@@ -16,12 +16,10 @@ class WeatherLoaded extends WeatherState {
   final String city;
   final double temperature;
   final String description;
-  final Widget icon;
   final double humidity;
   final double windSpeed;
 
   const WeatherLoaded({
-    required this.icon,
     required this.city,
     required this.temperature,
     required this.description,
