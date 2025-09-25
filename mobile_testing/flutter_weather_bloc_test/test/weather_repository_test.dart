@@ -24,7 +24,9 @@ void main() {
     );
 
     // Arrange
-    when(mockRepository.fetchWeatherServer(city)).thenAnswer((_) async => mockWeather);
+    when(
+      mockRepository.fetchWeatherServer(city),
+    ).thenAnswer((_) async => mockWeather);
 
     // Act
     final result = await mockRepository.fetchWeatherServer(city);
@@ -33,6 +35,17 @@ void main() {
     expect(result.city, city);
     expect(result.temperature, 30.0);
     expect(result.description, 'Cloudy');
+    verify(mockRepository.fetchWeatherServer(city)).called(1);
+  });
+
+  test('fetchWeatherServer throws when repository fails', () async {
+    final city = 'Bangkok';
+
+    when(
+      mockRepository.fetchWeatherServer(city),
+    ).thenThrow(Exception('Network error'));
+
+    expect(() => mockRepository.fetchWeatherServer(city), throwsException);
     verify(mockRepository.fetchWeatherServer(city)).called(1);
   });
 }
