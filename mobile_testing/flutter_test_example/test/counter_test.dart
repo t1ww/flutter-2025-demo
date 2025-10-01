@@ -151,4 +151,27 @@ void main() {
 
     expect(counter.value, 2);
   });
+  test('Counter value should end at 7', () {
+    final counter = Counter();
+
+    counter.increment();
+    counter.decrement();
+    counter.increment();
+    counter.increment();
+    counter.increment();
+    counter.increment();
+    counter.increment();
+    counter.decrement();
+    counter.increment();
+    counter.increment();
+    counter.increment();
+    counter.decrement();
+    counter.decrement();
+    counter.increment();
+    counter.decrement();
+    counter.increment();
+    counter.increment();
+
+    expect(counter.value, 7);
+  });
 }
