@@ -1,8 +1,14 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'recipe_model.dart';
 import 'recipe_repository.dart';
 
-abstract class RecipeState {}
+abstract class RecipeState extends Equatable {
+  const RecipeState();
+
+  @override
+  List<Object?> get props => [];
+}
 
 class RecipeInitial extends RecipeState {}
 
